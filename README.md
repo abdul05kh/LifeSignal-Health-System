@@ -41,6 +41,52 @@ Follow these instructions to set up the project locally.
 * A [Supabase](https://supabase.com/) account (Free tier)
 
 ### 1. Clone the Repository
-```bash
+```bash 
 git clone [https://github.com/YOUR-USERNAME/LifeSignal-Health-System.git](https://github.com/YOUR-USERNAME/LifeSignal-Health-System.git)
 cd LifeSignal-Health-System
+
+### 2. Install Dependencies
+Navigate into the project folder and install the required libraries:
+```bash
+npm install
+
+3. Configure Environment Variables
+You must create a secret file to store your database connection.
+
+Create a new file named .env in the root folder.
+
+Paste the following keys inside it:
+JWT_SECRET=my_super_secret_key_change_me
+DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[aws-0-ap-south-1.pooler.supabase.com:6543/postgres](https://aws-0-ap-south-1.pooler.supabase.com:6543/postgres)"
+  Important: Replace [YOUR-PASSWORD] with the actual password you set for your Supabase database. Remove the brackets!
+
+4. Run the Server
+Start the backend server:
+'''bash
+node server.js
+
+The server will start at http://localhost:3000.
+
+Note: The application will automatically create the necessary database tables (users and daily_logs) in your Supabase cloud the first time you run it!
+
+🔐 Default Admin Credentials
+To access the Admin Panel immediately, use this pre-configured account:
+
+Username: admin
+
+Password: admin123
+
+(Note: This account is created automatically when the server starts for the first time)
+
+🤝 Contributing
+Contributions are welcome!
+
+Fork the Project
+
+Create your Feature Branch (git checkout -b feature/AmazingFeature)
+
+Commit your Changes (git commit -m 'Add some AmazingFeature')
+
+Push to the Branch (git push origin feature/AmazingFeature)
+
+Open a Pull Request
