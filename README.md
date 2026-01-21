@@ -1,12 +1,14 @@
 # 🏥 LifeSignal - Health Intelligence System
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
 > **Your Personal AI Health Guardian.** > Monitor sleep, stress, and lifestyle habits to prevent burnout before it happens.
 
 <img width="1895" height="935" alt="Screenshot 2026-01-21 231434" src="https://github.com/user-attachments/assets/5ba86d5a-d699-4fa3-a064-2d57ebf27195" />
 
 
 ## 📖 Overview
-**LifeSignal** is a full-stack web application designed to help students and professionals track their physical and mental well-being. By logging daily metrics like sleep, activity, and stress, the system uses an **AI Engine** to calculate risk levels and generate personalized health reports.
+**LifeSignal** is a full-stack web application designed to help students and professionals track their physical and mental well-being. By logging daily metrics like sleep, activity, and stress, the[...] 
 
 Unlike static trackers, LifeSignal provides real-time feedback and alerts users when their lifestyle patterns indicate a high risk of burnout or health issues.
 
@@ -59,7 +61,7 @@ Create a new file named .env in the root folder.
 Paste the following keys inside it:
 
 JWT_SECRET=my_super_secret_key_change_me
-DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[aws-0-ap-south-1.pooler.supabase.com:6543/postgres](https://aws-0-ap-south-1.pooler.supabase.com:6543/postgres)"
+DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[aws-0-ap-south-1.pooler.supabase.com:6543/postgres]"
  
   Important: Replace [YOUR-PASSWORD] with the actual password you set for your Supabase database. Remove the brackets!
 
