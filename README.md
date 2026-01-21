@@ -41,13 +41,14 @@ Follow these instructions to set up the project locally.
 * A [Supabase](https://supabase.com/) account (Free tier)
 
 ### 1. Clone the Repository
-```bash 
+
 git clone [https://github.com/YOUR-USERNAME/LifeSignal-Health-System.git](https://github.com/YOUR-USERNAME/LifeSignal-Health-System.git)
 cd LifeSignal-Health-System
 
+
 ### 2. Install Dependencies
 Navigate into the project folder and install the required libraries:
-```bash
+
 npm install
 
 3. Configure Environment Variables
@@ -56,13 +57,15 @@ You must create a secret file to store your database connection.
 Create a new file named .env in the root folder.
 
 Paste the following keys inside it:
+
 JWT_SECRET=my_super_secret_key_change_me
 DATABASE_URL="postgresql://postgres:[YOUR-PASSWORD]@[aws-0-ap-south-1.pooler.supabase.com:6543/postgres](https://aws-0-ap-south-1.pooler.supabase.com:6543/postgres)"
+ 
   Important: Replace [YOUR-PASSWORD] with the actual password you set for your Supabase database. Remove the brackets!
 
 4. Run the Server
 Start the backend server:
-'''bash
+
 node server.js
 
 The server will start at http://localhost:3000.
@@ -76,7 +79,7 @@ Username: admin
 
 Password: admin123
 
-(Note: This account is created automatically when the server starts for the first time)
+(Note: This account is created automatically when the server starts for the first time.)
 
 🤝 Contributing
 Contributions are welcome!
