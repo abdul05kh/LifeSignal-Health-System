@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Register | LifeSignal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+ <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+    <i id="theme-icon" class="fas fa-sun"></i>
+</button>
+
+    <div class="centered-layout">
+        <div class="auth-card">
+            <h2 style="color: var(--accent);">New Student</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Create your profile</p>
+            
+            <form id="regForm">
+                <input type="text" id="reg-username" placeholder="Choose Username" required>
+                <input type="email" id="reg-email" placeholder="College Email" required>
+                <input type="password" id="reg-password" placeholder="Create Password" required>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <input type="number" id="reg-age" placeholder="Age">
+                    <select id="reg-gender"><option>Male</option><option>Female</option><option>Other</option></select>
+                </div>
+                <button type="button" onclick="handleRegister()">Sign Up</button>
+            </form>
+            
+            <div style="margin-top: 20px;">
+                <a href="/login" style="color: var(--accent);">Already have an account? Login</a>
+            </div>
+            <p id="msg" style="margin-top: 10px; font-weight: bold;"></p>
+        </div>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script>
+        async function handleRegister() {
+            const username = document.getElementById('reg-username').value;
+            const email = document.getElementById('reg-email').value;
+            const password = document.getElementById('reg-password').value;
+            const age = document.getElementById('reg-age').value;
+            const gender = document.getElementById('reg-gender').value;
+            const msg = document.getElementById('msg');
+            const btn = document.querySelector('button');
+
+            if(!username || !password || !email) { msg.innerText = "Fill all fields"; return; }
+
+            btn.disabled = true; btn.innerText = "Creating...";
+
+            try {
+                const res = await fetch('/auth/register', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify({ username, email, password, age, gender })
+                });
+                const data = await res.json();
+                
+                if(data.success) {
+                    msg.innerText = "Success! Redirecting to Login...";
+                    msg.style.color = "green";
+                    // THE CRITICAL FIX: Explicitly go to /login
+                    setTimeout(() => window.location.href = '/login', 1500);
+                } else {
+                    msg.innerText = data.message; msg.style.color = "red";
+                    btn.disabled = false; btn.innerText = "Sign Up";
+                }
+            } catch (err) {
+                console.error(err);
+                msg.innerText = "Server Error";
+                btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

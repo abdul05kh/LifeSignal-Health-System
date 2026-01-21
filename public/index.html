@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeSignal | Health Intelligence</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; padding: 20px; }
+        .hero h1 { font-size: 3.5rem; margin-bottom: 20px; }
+        .hero p { font-size: 1.2rem; color: var(--text-muted); max-width: 600px; margin-bottom: 30px; }
+        .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; padding: 50px 10%; }
+        .feature-box { background: var(--card-bg); padding: 30px; border-radius: 15px; text-align: center; border: 1px solid var(--card-border); }
+    </style>
+</head>
+<body>
+  <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+    <i id="theme-icon" class="fas fa-sun"></i>
+</button>
+
+    <header class="hero animate-up">
+        <h1>Your Health,<br><span style="color: var(--accent);">Decoded with AI.</span></h1>
+        <p>Monitor sleep, stress, and habits to prevent burnout before it happens.</p>
+        
+        <div style="display: flex; gap: 15px;">
+            <button onclick="window.location.href='/login'" style="background: transparent; border: 2px solid var(--accent);">Login</button>
+            <button onclick="window.location.href='/register'">Get Started</button>
+        </div>
+    </header>
+
+    <section class="features">
+        <div class="feature-box"><i class="fas fa-brain" style="font-size: 2rem; color: var(--accent);"></i><h3>AI Analysis</h3><p>Predict burnout risks.</p></div>
+        <div class="feature-box"><i class="fas fa-chart-line" style="font-size: 2rem; color: var(--accent);"></i><h3>Trends</h3><p>Track sleep & stress.</p></div>
+        <div class="feature-box"><i class="fas fa-shield-heart" style="font-size: 2rem; color: var(--accent);"></i><h3>Plans</h3><p>Actionable advice.</p></div>
+    </section>
+
+    <script src="js/theme.js"></script>
+</body>
+</html>

@@ -1,0 +1,12 @@
+# Dependency directories
+node_modules/
+
+# Environment variables (SECRETS)
+.env
+
+# System files
+.DS_Store
+Thumbs.db
+
+# Database file (if you still have the old one)
+lifesignal.db

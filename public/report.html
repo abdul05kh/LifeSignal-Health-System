@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Analysis Report | LifeSignal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+</head>
+<body>
+    <button class="theme-btn" onclick="toggleTheme()" aria-label="Toggle Theme">
+    <i id="theme-icon" class="fas fa-sun"></i>
+</button>
+    <div class="centered-layout" style="background: rgba(15, 12, 41, 0.95);">
+        <div class="content-card" style="max-width: 700px; animation: slideUp 0.6s cubic-bezier(0.2, 0.8, 0.2, 1);">
+            
+            <div style="text-align: center; margin-bottom: 25px;">
+                <div style="width: 80px; height: 80px; background: #3498db; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 15px;">
+                    <i class="fas fa-heartbeat" style="font-size: 40px; color: white;"></i>
+                </div>
+                <h2 style="color: #2c3e50; font-size: 1.8rem;">Your Lifestyle Audit</h2>
+                <p style="color: #7f8c8d;">AI-Powered Health Assessment</p>
+            </div>
+
+            <div id="status-box" style="padding: 12px; border-radius: 50px; text-align: center; color: white; font-weight: bold; margin-bottom: 25px; text-transform: uppercase; letter-spacing: 1px;">
+                Analyzing...
+            </div>
+
+            <div style="background: #f8f9fa; padding: 25px; border-radius: 12px; border: 1px solid #e1e8ed;">
+                <div id="ai-text" class="markdown-body" style="line-height: 1.7; color: #34495e;"></div>
+            </div>
+
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 25px;">
+                <div style="text-align: center; background: #e3f2fd; padding: 15px; border-radius: 10px;">
+                    <small style="color: #3498db; font-weight: bold;">BMI SCORE</small>
+                    <h2 id="rep-bmi" style="color: #2c3e50; margin: 5px 0 0;">--</h2>
+                </div>
+                <div style="text-align: center; background: #ffebee; padding: 15px; border-radius: 10px;">
+                    <small style="color: #e53935; font-weight: bold;">RISK FACTORS</small>
+                    <h2 id="rep-factors" style="color: #2c3e50; margin: 5px 0 0;">0</h2>
+                </div>
+            </div>
+
+            <button onclick="window.location.href='/dashboard'" style="margin-top: 30px; width: 100%; padding: 15px; font-size: 1.1rem; border-radius: 50px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);">
+                Back to Dashboard
+            </button>
+        </div>
+    </div>
+
+    <script>
+        const data = JSON.parse(localStorage.getItem('lastReport'));
+
+        if(data) {
+            // 1. Status Badge
+            const box = document.getElementById('status-box');
+            box.innerText = data.riskLevel;
+            if(data.riskLevel === 'High Risk') box.style.background = 'linear-gradient(45deg, #ff416c, #ff4b2b)';
+            else if(data.riskLevel === 'Moderate Risk') box.style.background = 'linear-gradient(45deg, #f7971e, #ffd200)';
+            else box.style.background = 'linear-gradient(45deg, #56ab2f, #a8e063)';
+
+            // 2. Render Markdown
+            document.getElementById('ai-text').innerHTML = marked.parse(data.aiReport);
+
+            // 3. Metrics
+            document.getElementById('rep-bmi').innerText = data.bmi;
+            document.getElementById('rep-factors').innerText = Array.isArray(data.factors) ? data.factors.length : 0;
+        } else {
+            window.location.href = '/dashboard';
+        }
+    </script>
+<script src="js/theme.js"></script>
+    <style>
+        .markdown-body h3, .markdown-body h4 { margin-top: 20px; margin-bottom: 10px; color: #2c3e50; }
+        .markdown-body h3 { border-bottom: 2px solid #3498db; padding-bottom: 5px; font-size: 1.4em;}
+        .markdown-body p { margin-bottom: 15px; }
+        .markdown-body strong { color: #34495e; }
+    </style>
+</body>
+</html>

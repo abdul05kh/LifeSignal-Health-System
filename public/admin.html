@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Admin Panel | LifeSignal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <button class="theme-btn" onclick="toggleTheme()"><i id="theme-icon" class="fas fa-sun"></i></button>
+
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <div class="logo-section"><h2>LifeSignal</h2><p>Admin Console</p></div>
+            <ul class="nav-menu">
+                <li class="active"><a href="#"><i class="fas fa-chart-line"></i> Overview</a></li>
+                <li style="margin-top:auto"><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+
+        <main class="main-content" style="flex: 1; padding: 30px; overflow-y: auto;">
+            <h1>System Monitoring</h1>
+            
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 20px; margin: 20px 0;">
+                <div class="stat-card">
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <div style="background:#3498db; padding:10px; border-radius:8px;"><i class="fas fa-users" style="color:white"></i></div>
+                        <div><h3 id="total-students">0</h3><p>Registered Students</p></div>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div style="display: flex; gap: 15px; align-items: center;">
+                        <div style="background:#e74c3c; padding:10px; border-radius:8px;"><i class="fas fa-exclamation-triangle" style="color:white"></i></div>
+                        <div><h3 id="high-risk-count">0</h3><p>High Risk Alerts</p></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3>Student Risk Distribution</h3>
+                <div class="chart-wrapper">
+                    <canvas id="adminChart"></canvas>
+                </div>
+            </div>
+
+            <div class="content-card">
+                <h3>Recent Student Logs</h3>
+                <table id="admin-table">
+                    <thead><tr><th>Student</th><th>Date</th><th>Risk Level</th><th>Factors</th></tr></thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/admin.js"></script>
+</body>
+</html>

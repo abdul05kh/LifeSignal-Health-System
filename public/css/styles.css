@@ -1,0 +1,167 @@
+/* --- GLOBAL VARIABLES --- */
+:root {
+    /* DARK THEME (DEFAULT) */
+    --bg-gradient: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
+    --text-main: #ffffff;
+    --text-muted: #b3b3b3;
+    --card-bg: rgba(255, 255, 255, 0.05);
+    --card-border: rgba(255, 255, 255, 0.1);
+    --input-bg: rgba(0, 0, 0, 0.3); /* Dark transparent for dark mode */
+    --input-border: rgba(255, 255, 255, 0.2);
+    --sidebar-bg: #0b091e;
+    --accent: #3498db;
+    --accent-glow: rgba(52, 152, 219, 0.4);
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+}
+
+[data-theme="light"] {
+    /* LIGHT THEME OVERRIDES */
+    --bg-gradient: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    --text-main: #2c3e50;
+    --text-muted: #57606f;
+    --card-bg: #ffffff;
+    --card-border: #e1e8ed;
+    /* FIX: Make inputs distinct from white card background */
+    --input-bg: #f1f3f5; 
+    --input-border: #ced4da;
+    --sidebar-bg: #ffffff;
+    --glass-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+/* --- BASE STYLES --- */
+* { margin: 0; padding: 0; box-sizing: border-box; transition: background 0.3s, color 0.3s; }
+
+body {
+    font-family: 'Segoe UI', sans-serif;
+    background: var(--bg-gradient);
+    background-attachment: fixed;
+    color: var(--text-main);
+    min-height: 100vh;
+}
+
+/* --- LAYOUTS --- */
+.dashboard-layout { display: flex; min-height: 100vh; }
+.centered-layout { display: flex; justify-content: center; align-items: center; min-height: 100vh; padding: 20px; }
+
+/* --- CARDS --- */
+.auth-card, .content-card, .stat-card {
+    background: var(--card-bg);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    box-shadow: var(--glass-shadow);
+    color: var(--text-main);
+    padding: 25px;
+    margin-bottom: 20px;
+}
+
+/* --- SIDEBAR --- */
+.sidebar {
+    width: 260px;
+    background: var(--sidebar-bg);
+    border-right: 1px solid var(--card-border);
+    padding: 20px;
+    display: flex; flex-direction: column;
+    flex-shrink: 0;
+}
+.sidebar .logo-section { margin-bottom: 40px; text-align: center; }
+.nav-menu { list-style: none; }
+.nav-menu li { margin-bottom: 10px; }
+.nav-menu a {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 15px; text-decoration: none;
+    color: var(--text-muted); border-radius: 10px;
+    font-weight: 500;
+}
+.nav-menu a:hover, .nav-menu li.active a {
+    background: var(--accent); color: white;
+    box-shadow: 0 4px 15px var(--accent-glow);
+}
+
+/* --- INPUTS (FIXED VISIBILITY) --- */
+input, select, textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    color: var(--text-main);
+    padding: 12px 15px;
+    border-radius: 8px;
+    width: 100%;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    outline: none;
+}
+input:focus, select:focus {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px var(--accent-glow);
+}
+label { font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+
+/* --- TABLES (FIXED SQUISHED TEXT) --- */
+table {
+    width: 100%;
+    border-collapse: collapse; /* Merges borders */
+    margin-top: 15px;
+}
+th, td {
+    padding: 15px 10px; /* Adds breathing room */
+    text-align: left;
+    border-bottom: 1px solid var(--card-border);
+}
+th {
+    color: var(--accent);
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+}
+
+/* ... (Keep your existing global variables) ... */
+
+/* CHART WRAPPER - CRITICAL FIX */
+.chart-wrapper {
+    position: relative;
+    height: 300px; /* Fixed height is mandatory for Chart.js */
+    width: 100%;
+}
+
+/* TABLE FIX (Ensure padding so text isn't squished) */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+th, td {
+    padding: 12px; /* Adds space inside cells */
+    text-align: left;
+    border-bottom: 1px solid var(--card-border);
+}
+
+/* --- BUTTONS --- */
+button {
+    background: var(--accent);
+    color: white;
+    padding: 12px 25px; border: none; border-radius: 50px;
+    cursor: pointer; font-weight: bold; font-size: 1rem;
+    box-shadow: 0 4px 15px var(--accent-glow);
+    transition: transform 0.2s;
+}
+button:hover { transform: translateY(-2px); }
+
+/* --- THEME TOGGLE --- */
+.theme-btn {
+    position: fixed; top: 20px; right: 20px;
+    width: 45px; height: 45px;
+    background: var(--card-bg);
+    color: var(--text-main);
+    border: 1px solid var(--card-border);
+    border-radius: 50%;
+    display: flex; justify-content: center; align-items: center;
+    cursor: pointer; z-index: 9999;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+}
+
+/* --- BADGES --- */
+.badge { padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; color: white; font-weight: bold; }
+.safe { background: #2ecc71; }
+.warning { background: #f1c40f; color: #333; }
+.risk { background: #e74c3c; }

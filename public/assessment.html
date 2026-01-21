@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Assessment | LifeSignal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-btn" onclick="toggleTheme()"><i id="theme-icon" class="fas fa-sun"></i></button>
+
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <div class="logo-section"><h2>LifeSignal</h2><p>Health Intelligence</p></div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                <li class="active"><a href="/assessment"><i class="fas fa-notes-medical"></i> Health Check</a></li>
+                <li><a href="/history"><i class="fas fa-history"></i> History</a></li>
+                <li style="margin-top:auto"><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+        
+        <main class="main-content" style="flex: 1; padding: 30px; overflow-y: auto;">
+            <div class="content-card" style="max-width: 800px; margin: 0 auto;">
+                <h2 style="margin-bottom: 25px; color: var(--accent);">New Health Entry</h2>
+                
+                <form id="healthForm">
+                    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px;">
+                        <div>
+                            <label>Sleep (Hours)</label>
+                            <input type="number" id="sleep" step="0.1" placeholder="6.5">
+                        </div>
+                        <div>
+                            <label>Activity (Mins)</label>
+                            <input type="number" id="activity" placeholder="30">
+                        </div>
+                        <div>
+                            <label>Screen Time (Hours)</label>
+                            <input type="number" id="screen_time" step="0.1" placeholder="8.0">
+                        </div>
+
+                        <div>
+                            <label>Stress (1-10)</label>
+                            <select id="stress">
+                                <option value="1">1 - Relaxed</option>
+                                <option value="3">3 - Low</option>
+                                <option value="5">5 - Moderate</option>
+                                <option value="8">8 - High</option>
+                                <option value="10">10 - Severe</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Diet Quality</label>
+                            <select id="diet">
+                                <option value="10">Good / Balanced</option>
+                                <option value="5">Average</option>
+                                <option value="1">Poor / Junk</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Water (Liters)</label>
+                            <input type="number" id="water" step="0.5" placeholder="2.5">
+                        </div>
+
+                        <div>
+                            <label>Mood</label>
+                            <select id="mood">
+                                <option value="Happy">Happy</option>
+                                <option value="Calm">Calm</option>
+                                <option value="Tired">Tired</option>
+                                <option value="Anxious">Anxious</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Weight (kg)</label>
+                            <input type="number" id="weight" step="0.1" placeholder="70">
+                        </div>
+                        <div>
+                            <label>Height (cm)</label>
+                            <input type="number" id="height" placeholder="175">
+                        </div>
+                    </div>
+
+                    <button type="button" onclick="submitAssessment()" style="margin-top: 30px; width: 100%;">
+                        Generate Report
+                    </button>
+                </form>
+                <p id="msg" style="text-align: center; margin-top: 15px; font-weight: bold;"></p>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        // ... (Paste the submitAssessment function here from previous steps) ...
+        // Re-pasting for convenience:
+        async function submitAssessment() {
+            const token = localStorage.getItem('token');
+            if(!token) { window.location.href = '/login'; return; }
+
+            const ids = ['sleep', 'activity', 'screen_time', 'water', 'weight', 'height'];
+            let payload = {};
+            
+            for(let id of ids) {
+                let el = document.getElementById(id);
+                if(!el || !el.value) { alert("Please fill " + id); return; }
+                payload[id] = parseFloat(el.value);
+            }
+            payload.stress = parseInt(document.getElementById('stress').value);
+            payload.diet = parseInt(document.getElementById('diet').value);
+            payload.mood = document.getElementById('mood').value;
+
+            const btn = document.querySelector('button');
+            const msg = document.getElementById('msg');
+            btn.disabled = true; btn.innerText = "Analyzing...";
+            msg.innerText = "Processing...";
+
+            try {
+                const res = await fetch('/api/log', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': token },
+                    body: JSON.stringify(payload)
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    localStorage.setItem('lastReport', JSON.stringify(data));
+                    window.location.href = '/report.html';
+                } else {
+                    throw new Error(data.message);
+                }
+            } catch (err) {
+                console.error(err);
+                msg.innerText = "Error"; btn.disabled = false;
+            }
+        }
+    </script>
+</body>
+</html>

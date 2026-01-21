@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>History | LifeSignal</title>
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <button class="theme-btn" onclick="toggleTheme()"><i id="theme-icon" class="fas fa-sun"></i></button>
+
+    <div class="dashboard-layout">
+        <nav class="sidebar">
+            <div class="logo-section"><h2>LifeSignal</h2><p>Health Intelligence</p></div>
+            <ul class="nav-menu">
+                <li><a href="/dashboard"><i class="fas fa-chart-pie"></i> Dashboard</a></li>
+                <li><a href="/assessment"><i class="fas fa-notes-medical"></i> Health Check</a></li>
+                <li class="active"><a href="/history"><i class="fas fa-history"></i> History</a></li>
+                <li style="margin-top:auto"><a href="#" onclick="logout()"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
+            </ul>
+        </nav>
+        
+        <main class="main-content" style="flex: 1; padding: 30px; overflow-y: auto;">
+            <div class="content-card">
+                <h2 style="margin-bottom: 20px;">Your Health History</h2>
+                <table id="history-table">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Sleep</th>
+                            <th>Stress</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="5" style="text-align:center">Loading records...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/theme.js"></script>
+    <script src="js/auth.js"></script>
+    <script>
+        window.allLogs = [];
+
+        async function loadHistory() {
+            const token = localStorage.getItem('token');
+            if(!token) { window.location.href = '/login'; return; }
+
+            try {
+                const res = await fetch('/api/history', { headers: { 'Authorization': token } });
+                const logs = await res.json();
+                window.allLogs = logs;
+                
+                const tbody = document.querySelector('#history-table tbody');
+                tbody.innerHTML = '';
+                
+                if(logs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center; padding:30px;">No records found.</td></tr>';
+                } else {
+                    logs.forEach((log, index) => {
+                        const date = new Date(log.date).toLocaleDateString();
+                        const badgeClass = log.risk_level === 'High Risk' ? 'risk' : (log.risk_level === 'Moderate Risk' ? 'warning' : 'safe');
+                        
+                        tbody.innerHTML += `
+                            <tr>
+                                <td><strong>${date}</strong></td>
+                                <td>${log.sleep}h</td>
+                                <td>${log.stress}/10</td>
+                                <td><span class="badge ${badgeClass}">${log.risk_level}</span></td>
+                                <td>
+                                    <button onclick="openReportByIndex(${index})" 
+                                            style="padding: 6px 15px; font-size: 0.8rem; box-shadow: none;">
+                                        View Report
+                                    </button>
+                                </td>
+                            </tr>
+                        `;
+                    });
+                }
+            } catch (err) { console.error(err); }
+        }
+
+        function openReportByIndex(index) {
+            const log = window.allLogs[index];
+            if(!log) return;
+            const reportObj = { aiReport: log.ai_report, riskLevel: log.risk_level, bmi: log.bmi };
+            localStorage.setItem('lastReport', JSON.stringify(reportObj));
+            window.location.href = '/report.html';
+        }
+
+        document.addEventListener('DOMContentLoaded', loadHistory);
+    </script>
+</body>
+</html>

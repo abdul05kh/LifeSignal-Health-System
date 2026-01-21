@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Baseline Survey</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="glass-container">
+        <h2>Baseline Assessment</h2>
+        <p style="color:var(--text-muted)">Help us understand your background for better accuracy.</p>
+        
+        <label>Any diagnosed conditions?</label>
+        <select id="condition">
+            <option value="none">None</option>
+            <option value="asthma">Asthma</option>
+            <option value="anxiety">Anxiety/Depression</option>
+            <option value="diabetes">Diabetes</option>
+        </select>
+
+        <label>Average Screen Time (Daily Hours)</label>
+        <input type="number" id="screentime" placeholder="e.g. 6">
+
+        <label>Do you smoke or consume alcohol?</label>
+        <select id="substance">
+            <option value="no">No</option>
+            <option value="occasional">Occasional</option>
+            <option value="regular">Regular</option>
+        </select>
+
+        <button onclick="submitSurvey()">Complete Setup</button>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
